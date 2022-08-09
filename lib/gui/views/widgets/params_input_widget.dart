@@ -145,6 +145,7 @@ class _ParamsWidgetState extends State<ParamsWidget> {
         width: 100,
         decoration: BoxDecoration(border: Border.all()),
         child: TextField(
+          keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
           onChanged: (value) {
             controller.expected = int.parse(value);
@@ -157,6 +158,7 @@ class _ParamsWidgetState extends State<ParamsWidget> {
         width: 100,
         decoration: BoxDecoration(border: Border.all()),
         child: TextField(
+          keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
           onChanged: (value) {
             controller.secondBucket = int.parse(value);
@@ -169,6 +171,7 @@ class _ParamsWidgetState extends State<ParamsWidget> {
         width: 100,
         decoration: BoxDecoration(border: Border.all()),
         child: TextField(
+          keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
           onChanged: (value) {
             controller.firtsBucket = int.parse(value);
