@@ -194,7 +194,7 @@ class _ParamsWidgetState extends State<ParamsWidget> {
               Column(children: [
                 Text(item[1].toString()),
               ]),
-              Column(children: [checkAction(item, controller)]),
+              Column(children: [Text(checkAction(item, controller))]),
             ]),
           ],
         ),
@@ -203,18 +203,58 @@ class _ParamsWidgetState extends State<ParamsWidget> {
   }
 }
 
-Text checkAction(dynamic item, MainViewControllerView controller) {
-  return Text(item[0] == '0' && item[1] != '0'
-      ? 'Transfer Bucket X to Y'
-      : item[1] == controller.expected.toString() ||
-              item[0] == controller.expected.toString()
-          ? 'Solved'
-          : item[0] != '0' && item[1] == '0'
-              ? 'Fill Bucket X'
-              : item[0] == controller.firtsBucket.toString() && item[1] != '0'
-                  ? 'Tranfer bucket Y to X'
-                  : item[0] != '0' &&
-                          item[1] == controller.secondBucket.toString()
-                      ? 'Tranfer bucket Y to X'
-                      : '');
+String checkAction(dynamic item, MainViewControllerView controller) {
+  int bucketX = int.parse(item[0]);
+  int bucketY = int.parse(item[1]);
+  int capacityX = controller.firtsBucket;
+  int capacityY = controller.secondBucket;
+
+  if (bucketX == 0 && bucketY == 0) {
+    return 'Start calculation';
+  } else if (bucketX == controller.expected || bucketY == controller.expected) {
+    return 'Solved';
+  }
+
+// Calculating X < Y
+  else if (capacityX < capacityY &&
+      bucketX == 0 &&
+      bucketY < controller.secondBucket) {
+    return 'Empty bucket X';
+  } else if (capacityX < capacityY &&
+      bucketY == 0 &&
+      bucketX < controller.firtsBucket) {
+    return 'Transfer Y to X';
+  } else if (capacityX < capacityY &&
+      (bucketX == 0 && bucketY == controller.secondBucket ||
+          bucketX > 0 && bucketY == controller.secondBucket)) {
+    return 'Fill Bucket Y';
+  } else if (capacityX < capacityY &&
+      bucketY == 0 &&
+      bucketX == controller.firtsBucket) {
+    return 'Fill Bucket X';
+  } else if (capacityX < capacityY &&
+      bucketX == controller.firtsBucket &&
+      bucketY < controller.secondBucket) {
+    return 'Transfer Y to X';
+  }
+//Same for Bucket X  > to Y
+  else if (capacityX > capacityY && bucketX < capacityX && bucketY == 0) {
+    return 'Empty bucket Y';
+  } else if (capacityX > capacityY && bucketX == capacityX && bucketY == 0) {
+    return 'Fill Bucket X';
+  } else if (capacityX > capacityY && bucketX == 0 && bucketY < capacityY) {
+    return 'Transfer X to Y';
+  } else if (capacityX > capacityY && bucketX == 0 && bucketY == capacityY) {
+    return 'Fill Bucket Y';
+  } else if (capacityX > capacityY &&
+      bucketX == capacityX &&
+      bucketY < capacityY) {
+    return 'Fill Bucket X';
+  } else if (capacityX > capacityY &&
+      bucketY == capacityY &&
+      bucketX < capacityX) {
+    return 'Transfer X to Y';
+  } else {
+    return '';
+  }
 }
